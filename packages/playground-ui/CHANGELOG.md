@@ -1,5 +1,48 @@
 # @mastra/playground-ui
 
+## 9.0.0-alpha.2
+
+### Patch Changes
+
+- Fix stored agents functionality and type consistency: ([#12672](https://github.com/mastra-ai/mastra/pull/12672))
+
+  ## Server (`@mastra/server`)
+  - Fixed auto-versioning bug where `activeVersionId` wasn't being updated when creating new versions
+  - Added `GET /vectors` endpoint to list available vector stores
+  - Added `GET /embedders` endpoint to list available embedding models
+  - Added validation for memory configuration when semantic recall is enabled
+  - Fixed version comparison in `handleAutoVersioning` to use the active version instead of latest
+  - Added proper cache clearing after agent updates
+
+  ## Client SDK (`@mastra/client-js`)
+  - Updated `CreateStoredAgentParams` and `UpdateStoredAgentParams` types to match server schemas
+  - Added proper `SerializedMemoryConfig` type with all fields including `embedder` and `embedderOptions`
+  - Fixed `StoredAgentScorerConfig` to use correct sampling types (`'none' | 'ratio'`)
+  - Added `listVectors()` and `listEmbedders()` methods to the client
+  - Added corresponding `ListVectorsResponse` and `ListEmbeddersResponse` types
+
+  ## Core (`@mastra/core`)
+  - Updated `SerializedMemoryConfig` to allow `embedder?: EmbeddingModelId | string` for flexibility
+  - Exported `EMBEDDING_MODELS` and `EmbeddingModelInfo` for use in server endpoints
+
+  ## Editor (`@mastra/editor`)
+  - Fixed memory persistence bug by handling missing vector store gracefully
+  - When semantic recall is enabled but no vector store is configured, it now disables semantic recall instead of failing
+  - Fixed type compatibility for `embedder` field when creating agents from stored config
+
+  ## Playground UI (`@mastra/playground-ui`)
+  - Fixed memory configuration in agent forms to use `SerializedMemoryConfig` object instead of string
+  - Added `MemoryConfigurator` component for proper memory settings UI
+  - Fixed scorer sampling configuration to remove unsupported 'count' option
+  - Added `useVectors` and `useEmbedders` hooks to fetch available options from API
+  - Fixed agent creation flow to use the server-returned agent ID for navigation
+  - Fixed form validation schema to properly handle memory configuration object
+
+- Updated dependencies [[`1ff1bb7`](https://github.com/mastra-ai/mastra/commit/1ff1bb7133ddcc14ce1822961efdd879b2ac5457)]:
+  - @mastra/client-js@1.2.0-alpha.2
+  - @mastra/core@1.2.0-alpha.2
+  - @mastra/react@0.2.1-alpha.2
+
 ## 9.0.0-alpha.1
 
 ### Minor Changes
